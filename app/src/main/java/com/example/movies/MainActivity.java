@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     TextView txt;
+    public String api = "3c891b1006d9bdf7725711a9834ce4e2";
     List<DataModel> movieList;
     RecyclerView recyclerView;
     @Override
@@ -29,25 +30,27 @@ public class MainActivity extends AppCompatActivity {
         //Retrofit builder
         movieList = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://run.mocky.io/")
+                .baseUrl("https://api.themoviedb.org")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         MyApiCall service = retrofit.create(MyApiCall.class);
-        Call<List<DataModel>> call = service.getMovieList();
-        call.enqueue(new Callback<List<DataModel>>() {
+        Log.d("chgeck", api);
+        Call<ResponseModel> call = service.movieList(api);
+        Log.d("check api", api);
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<List<DataModel>> call, Response<List<DataModel>> response) {
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if(response.code() != 200) {
                     Log.d("connection", "wrong connection");
                 }
-                movieList = response.body();
+                movieList = response.body().getResults();
                 PutDataIntoRecyclerView(movieList);
                 Log.d("movie", movieList.toString());
             }
 
             @Override
-            public void onFailure(Call<List<DataModel>> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
 
                 Log.d("connection", t.getMessage());
             }

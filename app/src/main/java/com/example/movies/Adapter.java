@@ -1,11 +1,14 @@
 package com.example.movies;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,14 +33,26 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         v = layoutInflater.inflate(R.layout.item , parent, false);
-
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.title.setText(movieList.get(position).getName());
-        Glide.with(mContext).load(movieList.get(position).getImage()).into(holder.img);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.title.setText(movieList.get(position).getTitle());
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w200/"+movieList.get(position).getPoster_path()).into(holder.img);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(mContext,Movie_Details.class);
+
+                intent.putExtra("title",movieList.get(position).getPoster_path());
+                intent.putExtra("title",movieList.get(position).getTitle());
+                intent.putExtra("title",movieList.get(position).getOverview());
+                mContext.startActivity(intent);
+                Toast.makeText(mContext, movieList.get(position).getTitle(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

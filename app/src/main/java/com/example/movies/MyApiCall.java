@@ -4,10 +4,14 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MyApiCall {
-    //https://run.mocky.io/         v3/d862875d-7960-498c-b538-a1f3ffea1b9a
+    //https://api.themoviedb.org/3/movie/top_rated?api_key=3c891b1006d9bdf7725711a9834ce4e2
+    //https://api.themoviedb.org/3/movie/top_rated?api_key={api_key}
 
-    @GET("v3/c38ef967-0c43-4cbb-b4a0-1f330e2d33b7")
-    Call<List<DataModel>>getMovieList();
+    @GET("3/movie/top_rated")
+    Call<ResponseModel> movieList(@Query("api_key") String api_key);
 }
