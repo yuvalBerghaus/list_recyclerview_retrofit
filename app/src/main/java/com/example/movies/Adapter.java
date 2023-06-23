@@ -50,7 +50,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
                 intent.putExtra("title",movieList.get(position).getTitle());
                 intent.putExtra("overview",movieList.get(position).getOverview());
                 mContext.startActivity(intent);
-                Toast.makeText(mContext, movieList.get(position).getTitle(), Toast.LENGTH_LONG).show();
             }
         });
     }
